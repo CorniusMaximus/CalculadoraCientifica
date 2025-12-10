@@ -1,14 +1,15 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 // Definição de padrões
-string _patternBasic = @"\d+\s*[+\-*/]\s*\d+";
-string[] _patternsOps = [@"\d+\s*[\*\/]\s*\d+", @"\d+\s*[\+\-]\s*\d+"];
-string _patternNumber = @"\d+";
+string _patternBasic = @"\d+[,.]?\d*\s*[+\-*/]\s*\d+[,.]?\d*";
+string[] _patternsOps = [@"\d+[,.]?\d*\s*[\*\/]\s*\d+[,.]?\d*", @"\d+[,.]?\d*\s*[\+\-]\s*\d+[,.]?\d*"];
+string _patternNumber = @"\d+[,.]?\d*";
 string _patternSymbol = @"[+\-*/]";
 string _patternParenthesis = @"\([^()]*\)";
-string _patternSimpleParenthesis = @"\(\s*\-*\d+\s*\)";
-string _patternNegateSum = @"(\+\-|\-\+)";
+string _patternSimpleParenthesis = @"\(\s*\-*\d+[,.]?\d*\s*\)";
+string _patternNegateSum = @"(\+\s*\-|\-\s*\+)";
 
 // Input da expressão
 Console.WriteLine("Insira uma expressão matemática");
@@ -46,8 +47,8 @@ while(_valid)
 
     // Extrai os valores separadamente
     MatchCollection _numbers = Regex.Matches(_extractedExpression, _patternNumber);
-    float _num1 = float.Parse(_numbers[0].Value);
-    float _num2 = float.Parse(_numbers[1].Value);
+    float _num1 = float.Parse(_numbers[0].Value, CultureInfo.InvariantCulture);
+    float _num2 = float.Parse(_numbers[1].Value, CultureInfo.InvariantCulture);
     string _operation = Regex.Match(_extractedExpression, _patternSymbol).Value;
 
     // Realiza as opeações básicas
@@ -90,3 +91,5 @@ while(_valid)
 }
 
 Console.WriteLine(_expression);
+
+Console.ReadKey();
