@@ -16,16 +16,14 @@ Console.WriteLine("Insira uma expressão matemática");
 string _expression = Console.ReadLine();
 
 // Checagem da expressão
-bool _valid = Regex.IsMatch(_expression, _patternBasic);
-while(!_valid)
+while(!Regex.IsMatch(_expression, _patternBasic))
 {
     Console.WriteLine("Insira uma expressão válida");
     _expression = Console.ReadLine();
-    _valid = Regex.IsMatch(_expression, _patternBasic);
 }
 
 // Início do loop de cálculo
-while(_valid)
+while(Regex.IsMatch(_expression, _patternBasic))
 {
     // Extrai o parêntesis mais interno
     string _extractedParenthesis;
@@ -47,8 +45,8 @@ while(_valid)
 
     // Extrai os valores separadamente
     MatchCollection _numbers = Regex.Matches(_extractedExpression, _patternNumber);
-    float _num1 = float.Parse(_numbers[0].Value, CultureInfo.InvariantCulture);
-    float _num2 = float.Parse(_numbers[1].Value, CultureInfo.InvariantCulture);
+    float _num1 = float.Parse(_numbers[0].Value);
+    float _num2 = float.Parse(_numbers[1].Value);
     string _operation = Regex.Match(_extractedExpression, _patternSymbol).Value;
 
     // Realiza as opeações básicas
@@ -85,9 +83,6 @@ while(_valid)
 
     if(Regex.IsMatch(_expression, _patternNegateSum))
         _expression = Regex.Replace(_expression, _patternNegateSum, "-");
-
-    if(!Regex.IsMatch(_expression, _patternBasic))
-        break;
 }
 
 Console.WriteLine(_expression);
