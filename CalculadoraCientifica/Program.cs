@@ -66,6 +66,12 @@ while(Regex.IsMatch(_expression, _patternBasic))
             break;
 
         case "/":
+            if (_num2 == 0)
+            {
+                Console.WriteLine("A expreção gerou uma divisão por ZERO, portanto ela é irresolúvel");
+                Console.ReadKey();
+                return;
+            }
             _result = _num1 / _num2;
             break;
 
